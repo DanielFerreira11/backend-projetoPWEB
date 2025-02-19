@@ -5,7 +5,7 @@ import { z } from "zod";
 const CreateAircraftSchema = z.object({
     model: z.string(),
     register: z.string(), 
-    status: z.enum(["Disponível", "Em Manutenção"]),
+    status: z.enum(["Available", "Under maintenance"]),
   });
   
 

@@ -35,7 +35,7 @@ class AdminController {
       res.json(admin);
       return;
     } catch (error: any) {
-      res.status(404).json({ message: "Admin not founded", error: error.message });
+      res.status(404).json({ message: "Admin not found", error: error.message });
       return;
     }
   }
