@@ -7,7 +7,7 @@ const router = Router();
  * @swagger
  * tags:
  *   name: Class
- *   description: Class management
+ *   description: Class routes
  */
 
 /**

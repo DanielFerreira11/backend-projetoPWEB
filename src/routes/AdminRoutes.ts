@@ -7,7 +7,7 @@ const router = Router();
  * @swagger
  * tags:
  *   name: Admin
- *   description: Admin management
+ *   description: Admin routes
  */
 
 /**

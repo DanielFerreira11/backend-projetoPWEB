@@ -7,7 +7,7 @@ const router = Router();
  * @swagger
  * tags:
  *   name: Aircraft
- *   description: Aircraft management
+ *   description: Aircraft routes
  */
 
 /**
