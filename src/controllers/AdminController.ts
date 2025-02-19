@@ -30,7 +30,7 @@ class AdminController {
 
   async getByEmail(req: Request, res: Response): Promise<void> {
     try {
-      const email = req.query.email as string;
+      const email = req.params.email as string;
       const admin = await AdminService.getByEmail(email);
       res.json(admin);
       return;
