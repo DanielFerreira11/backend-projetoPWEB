@@ -4,8 +4,16 @@ import prisma from '../database/prisma';
 interface CreateAdminPayload {
   name: string;
   email: string;
+  instructorId?: string,
   password: string;
   role: string;
+}
+
+interface UpdateAdminPayload {
+  name?: string;
+  password?: string;
+  instructorId?: string;
+  role?: string;
 }
 
 class AdminRepository {
@@ -28,6 +36,26 @@ class AdminRepository {
     });
 
     return admin;
+  }
+
+  static async update(id: Admin['id'], payload: UpdateAdminPayload): Promise<Admin> {
+    const updatedAdmin = await prisma.admin.update({
+      where: { id },
+      data : {
+        name: payload.name,
+        password: payload.password,
+        instructorId: payload.instructorId,
+        role: payload.role,
+      },
+    });
+
+    return updatedAdmin;
+  }
+
+  static async delete(id: Admin['id']) {
+    await prisma.admin.delete({
+      where: { id },
+    });
   }
 }
 

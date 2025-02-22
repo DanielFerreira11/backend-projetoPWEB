@@ -73,4 +73,8 @@ router.post("/admin", AdminController.create);
  */
 router.get("/admin/:email", AdminController.getByEmail);
 
+router.put("/admin/:id", AdminController.update);
+
+router.delete("/admin/:id", AdminController.delete);
+
 export default router;
