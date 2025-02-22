@@ -73,7 +73,73 @@ router.post("/admin", AdminController.create);
  */
 router.get("/admin/:email", AdminController.getByEmail);
 
+/**
+ * @swagger
+ * /admin/{id}:
+ *   put:
+ *     summary: Update an admin by ID
+ *     description: Updates the details of an existing admin.
+ *     tags: [Admin]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of the admin to be updated
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: "Jane Doe"
+ *               instructorId:
+ *                 type: string
+ *                 example: "386a3b61-ee6a-410d-95b1-db4818b6bfe4"
+ *               password:
+ *                 type: string
+ *                 example: "newsecurepassword"
+ *               role:
+ *                 type: string
+ *                 example: "admin"
+ *     responses:
+ *       200:
+ *         description: Admin successfully updated
+ *       400:
+ *         description: Invalid request data
+ *       404:
+ *         description: Admin not found
+ *       500:
+ *         description: Internal server error
+ */
 router.put("/admin/:id", AdminController.update);
+
+/**
+ * @swagger
+ * /admin/{id}:
+ *   delete:
+ *     summary: Delete an admin by ID
+ *     description: Removes an admin from the system.
+ *     tags: [Admin]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of the admin to be deleted
+ *     responses:
+ *       200:
+ *         description: Admin successfully deleted
+ *       404:
+ *         description: Admin not found
+ *       500:
+ *         description: Internal server error
+ */
 
 router.delete("/admin/:id", AdminController.delete);
 
