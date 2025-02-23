@@ -58,9 +58,9 @@ model Aircraft {
 model Class {
   id           String    @id @default(uuid())
   name         String
-  instructor   Instructor? @relation(fields: [instructorId], references: [id], onDelete: Cascade)
+  instructor   Instructor? @relation(fields: [instructorId], references: [id], onDelete: SetNull)
   instructorId String?
-  aircraft     Aircraft? @relation(fields: [aircraftId], references: [id], onDelete: Cascade)
+  aircraft     Aircraft? @relation(fields: [aircraftId], references: [id], onDelete: SetNull)
   aircraftId   String?
   schedule     String
   students     Student[]
