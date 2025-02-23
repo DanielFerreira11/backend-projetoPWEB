@@ -53,25 +53,25 @@ router.post("/admin", AdminController.create);
 
 /**
  * @swagger
- * /admin/{email}:
+ * /admin/{id}:
  *   get:
- *     summary: Get an admin by email
- *     description: Retrieves admin information based on the provided email.
+ *     summary: Get an admin by id
+ *     description: Retrieves admin information based on the provided id.
  *     tags: [Admin]
  *     parameters:
  *       - in: path
- *         name: email
+ *         name: id
  *         required: true
  *         schema:
  *           type: string
- *         description: The email of the admin to be retrieved
+ *         description: The id of the admin to be retrieved
  *     responses:
  *       200:
  *         description: Admin details successfully retrieved
  *       404:
  *         description: Admin not found
  */
-router.get("/admin/:email", AdminController.getByEmail);
+router.get("/admin/:id", AdminController.getById);
 
 /**
  * @swagger

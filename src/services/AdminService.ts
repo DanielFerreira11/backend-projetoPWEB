@@ -1,25 +1,65 @@
+import { z } from "zod";
 import { UserNotFoundException } from "../exceptions/UserNotFoundException";
 import AdminRepository from "../repository/AdminRepository";
+import { InvalidPayloadDataException } from "../exceptions/InvalidPayloadDataException";
+import { AlreadyExistsException } from "../exceptions/AlreadyExistsException";
+
+const createAdminSchema = z.object({
+  name: z.string(),
+  email: z.string().email(),
+  instructorId: z.string().uuid().optional(),
+  password: z.string(),
+  role: z.string(),
+});
+
+type CreateAdminPayload = z.infer<typeof createAdminSchema>;
+
+const updateAdminSchema = z.object({
+  name: z.string().optional(),
+  password: z.string().optional(),
+  instructorId: z.string().optional(),
+  role: z.string().optional(),
+});
+
+type UpdateAdminPayload = z.infer<typeof updateAdminSchema>;
 
 class AdminService {
-  async create(data: any) {
-    return await AdminRepository.create(data);
+  
+  async create(data: CreateAdminPayload) {
+    const validationPayload = createAdminSchema.safeParse(data);
+    if (!validationPayload.success) throw new InvalidPayloadDataException('Invalid payload data to create an admin.');
+
+    const payload = validationPayload.data;
+   
+    const admin = await AdminRepository.findByEmail(payload.email);
+
+    if (admin != null) throw new AlreadyExistsException('Already exists an aircraft with this email.')
+
+    const createdAdmin = await AdminRepository.create(payload);
+
+    return createdAdmin;
   }
 
-  async getByEmail(email: string) {
-    return await AdminRepository.findByEmail(email);
-  }
-
-  async update(id: string, data: any) {
+  async getById(id: string) {
     const admin = await AdminRepository.findById(id);
     if (admin == null) throw new UserNotFoundException;
 
-    return await AdminRepository.update(admin.id, {
-      name: data.name,
-      password: data.password,
-      instructorId: data.instructorId,
-      role: data.role,
-    });
+    return admin;
+  }
+
+  async update(id: string, data: UpdateAdminPayload) {
+    const validationPayload = updateAdminSchema.safeParse(data);
+    if (!validationPayload.success) throw new InvalidPayloadDataException('Invalid payload data to update an admin.');
+
+    const admin = await AdminRepository.findById(id);
+
+    if (admin == null) throw new UserNotFoundException;
+
+    const payload = validationPayload.data;
+
+    const updatedAdmin = await AdminRepository.update(id, payload);
+
+    return updatedAdmin;
   }
 
   async delete(id: string) {
