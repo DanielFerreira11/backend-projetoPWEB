@@ -1,27 +1,22 @@
 import { Request, Response } from "express";
 import ClassService from "../services/ClassService";
-import { z } from "zod";
-
-const CreateClassSchema = z.object({
-  name: z.string(),
-  schedule: z.string(),
-  instructorId: z.string().uuid(),
-});
+import { Exception } from "../exceptions/Exception";
+import ClassRepository from "../repository/ClassRepository";
 
 class ClassController {
   async create(req: Request, res: Response): Promise<void> {
-    const validationPayload = CreateClassSchema.safeParse(req.body);
-
-    if (!validationPayload.success) {
-      res.status(400).json({ error: validationPayload.error.errors });
-      return;
-    }
-
     try {
-      const newClass = await ClassService.create(validationPayload.data);
-      res.status(201).json(newClass);
-    } catch (error: any) {
-      res.status(500).json({ error: error.message });
+      const createdClass = await ClassService.create(req.body);
+      res.status(201).json(createdClass);
+      return;
+    } catch (err) {
+      if (err instanceof Exception) {
+        res.status(err.statusCode).json({ error: err.message });
+        return;
+      } else {
+        res.status(500).json({ error: 'Internal server error.' })
+        return;
+      }
     }
   }
 
@@ -29,24 +24,64 @@ class ClassController {
     try {
       const id = req.params.id as string;
       const classData = await ClassService.getById(id);
-
-      if (!classData) {
-        res.status(404).json({ message: "Class not found" });
+      res.status(200).json(classData);
+    } catch (err) {
+      if (err instanceof Exception) {
+        res.status(err.statusCode).json({ error: err.message });
+        return;
+      } else {
+        res.status(500).json({ error: 'Internal server error.' })
         return;
       }
-
-      res.json(classData);
-    } catch (error: any) {
-      res.status(500).json({ error: error.message });
     }
   }
 
-  async getAll(req: Request, res: Response): Promise<void> {
+  async getAll(_req: Request, res: Response): Promise<void> {
     try {
       const classes = await ClassService.getAll();
-      res.json(classes);
-    } catch (error: any) {
-      res.status(500).json({ error: error.message });
+      res.status(200).json(classes);
+      return;
+    } catch (err) {
+      if (err instanceof Exception) {
+        res.status(err.statusCode).json({ error: err.message });
+        return;
+      } else {
+        res.status(500).json({ error: 'Internal server error.' })
+        return;
+      }
+    }
+  }
+
+  async update(req: Request, res: Response): Promise<void> {
+    try {
+      const id = req.params.id as string;
+      const updatedClass = await ClassService.update(id, req.body);
+      res.status(200).json(updatedClass);
+      return;
+    } catch (err) {
+      if (err instanceof Exception) {
+        res.status(err.statusCode).json({ error: err.message });
+        return;
+      } else {
+        res.status(500).json({ error: 'Internal server error.' })
+        return;
+      }
+    }
+  }
+
+  async delete(req: Request, res: Response): Promise<void> {
+    try {
+      const id = req.params.id as string;
+      await ClassService.delete(id);
+      res.status(200).json();
+    } catch (err) {
+      if (err instanceof Exception) {
+        res.status(err.statusCode).json({ error: err.message });
+        return;
+      } else {
+        res.status(500).json({ error: 'Internal server error.' })
+        return;
+      }
     }
   }
 }

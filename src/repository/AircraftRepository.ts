@@ -27,7 +27,7 @@ class AircraftRepository {
     return aircraft;
   }
 
-  static async findById(id: string): Promise<Aircraft | null> {
+  static async findById(id: Aircraft['id']): Promise<Aircraft | null> {
     const aircraft = await prisma.aircraft.findUnique({
       where: { id },
     });
@@ -35,7 +35,7 @@ class AircraftRepository {
     return aircraft;
   }
 
-  static async findByRegister(register: string): Promise<Aircraft | null> {
+  static async findByRegister(register: Aircraft['register']): Promise<Aircraft | null> {
     const aircraft = await prisma.aircraft.findUnique({
       where: { register },
     });
@@ -62,6 +62,5 @@ class AircraftRepository {
     });
   }
 }
-
 
 export default AircraftRepository;

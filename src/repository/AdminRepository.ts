@@ -30,7 +30,7 @@ class AdminRepository {
     return admin;
   }
 
-  static async findByEmail(email: string): Promise <Admin | null> {
+  static async findByEmail(email: Admin['email']): Promise <Admin | null> {
     const admin = await prisma.admin.findUnique({
       where: { email },
     });

@@ -30,9 +30,9 @@ class AdminService {
     if (!validationPayload.success) throw new InvalidPayloadDataException('Invalid payload data to create an admin.');
 
     const payload = validationPayload.data;
-   
+    
     const admin = await AdminRepository.findByEmail(payload.email);
-
+  
     if (admin != null) throw new AlreadyExistsException('Already exists an aircraft with this email.')
 
     const createdAdmin = await AdminRepository.create(payload);
