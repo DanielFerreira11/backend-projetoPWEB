@@ -7,7 +7,7 @@ const router = Router();
  * @swagger
  * tags:
  *   name: Aircraft
- *   description: Aircraft routes
+ *   description: Aircraft management routes
  */
 
 /**
@@ -44,7 +44,7 @@ const router = Router();
  *       400:
  *         description: Invalid request data
  *       500:
- *         description: Any other error
+ *         description: Internal server error
  */
 router.post("/aircraft", AircraftController.create);
 
@@ -70,8 +70,71 @@ router.post("/aircraft", AircraftController.create);
  */
 router.get("/aircraft/:id", AircraftController.getById);
 
+/**
+ * @swagger
+ * /aircraft/{id}:
+ *   put:
+ *     summary: Update an aircraft by ID
+ *     description: Updates the details of an existing aircraft.
+ *     tags: [Aircraft]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of the aircraft to be updated
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               model:
+ *                 type: string
+ *                 example: "Airbus A320"
+ *               register:
+ *                 type: string
+ *                 example: "XYZ-789"
+ *               status:
+ *                 type: string
+ *                 enum: ["Available", "Under maintenance"]
+ *                 example: "Under maintenance"
+ *     responses:
+ *       200:
+ *         description: Aircraft successfully updated
+ *       400:
+ *         description: Invalid request data
+ *       404:
+ *         description: Aircraft not found
+ *       500:
+ *         description: Internal server error
+ */
 router.put("/aircraft/:id", AircraftController.update);
 
+/**
+ * @swagger
+ * /aircraft/{id}:
+ *   delete:
+ *     summary: Delete an aircraft by ID
+ *     description: Removes an aircraft from the system.
+ *     tags: [Aircraft]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of the aircraft to be deleted
+ *     responses:
+ *       200:
+ *         description: Aircraft successfully deleted
+ *       404:
+ *         description: Aircraft not found
+ *       500:
+ *         description: Internal server error
+ */
 router.delete("/aircraft/:id", AircraftController.delete);
 
 export default router;
