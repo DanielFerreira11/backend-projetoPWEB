@@ -70,4 +70,8 @@ router.post("/aircraft", AircraftController.create);
  */
 router.get("/aircraft/:id", AircraftController.getById);
 
+router.put("/aircraft/:id", AircraftController.update);
+
+router.delete("/aircraft/:id", AircraftController.delete);
+
 export default router;

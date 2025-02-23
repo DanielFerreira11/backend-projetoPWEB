@@ -2,30 +2,66 @@ import { Aircraft } from "@prisma/client";
 import prisma from "../database/prisma";
 
 interface CreateAircraftPayload {
-    model: string;
-    register: string; 
-    status: string;
-  }
-  
+  model: string;
+  register: string;
+  status: string;
+}
 
-  class AircraftRepository {
-    static async create(payload: CreateAircraftPayload): Promise<Aircraft> {
-      const aircraft = await prisma.aircraft.create({
-        data: {
-          model: payload.model,
-          register: payload.register,
-          status: payload.status,
-        },
-      });
-      return aircraft;
-    }
-  
-    static async findById(id: string): Promise<Aircraft | null> {
-      return await prisma.aircraft.findUnique({
-        where: { id },
-      });
-    }
+interface UpdateAircraftPayload {
+  model?: string;
+  register?: string;
+  status?: string;
+}
+
+
+class AircraftRepository {
+  static async create(payload: CreateAircraftPayload): Promise<Aircraft> {
+    const aircraft = await prisma.aircraft.create({
+      data: {
+        model: payload.model,
+        register: payload.register,
+        status: payload.status,
+      },
+    });
+
+    return aircraft;
   }
-  
+
+  static async findById(id: string): Promise<Aircraft | null> {
+    const aircraft = await prisma.aircraft.findUnique({
+      where: { id },
+    });
+
+    return aircraft;
+  }
+
+  static async findByRegister(register: string): Promise<Aircraft | null> {
+    const aircraft = await prisma.aircraft.findUnique({
+      where: { register },
+    });
+
+    return aircraft;
+  }
+
+  static async update(id: Aircraft['id'], payload: UpdateAircraftPayload): Promise<Aircraft> {
+    const updatedAircraft = await prisma.aircraft.update({
+      where: { id },
+      data: {
+        model: payload.model,
+        register: payload.register,
+        status: payload.status,
+      },
+    });
+
+    return updatedAircraft;
+  }
+
+  static async deleteById(id: Aircraft['id']) {
+    return await prisma.aircraft.delete({
+      where: { id },
+    });
+  }
+}
+
 
 export default AircraftRepository;
