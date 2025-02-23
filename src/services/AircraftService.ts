@@ -21,7 +21,7 @@ const updateAircraftSchema = z.object({
 type UpdateAircraftPayload = z.infer<typeof updateAircraftSchema>;
 
 class AircraftService {
-  static async create(data: CreateAircraftPayload) {
+  async create(data: CreateAircraftPayload) {
     const validationPayload = createAircraftSchema.safeParse(data);
     if (!validationPayload.success) throw new InvalidPayloadDataException('Invalid payload data to create an aircraft.')
     
@@ -36,7 +36,7 @@ class AircraftService {
     return createdAircraft;
   }
 
-  static async getById(id: string) {
+  async getById(id: string) {
     const aircraft = await AircraftRepository.findById(id);
 
     if (aircraft == null) throw new AircraftNotFoundException;
@@ -44,7 +44,7 @@ class AircraftService {
     return aircraft;
   }
 
-  static async update(id: string, data: UpdateAircraftPayload) {
+  async update(id: string, data: UpdateAircraftPayload) {
     const validationPayload = updateAircraftSchema.safeParse(data);
     if (!validationPayload.success) throw new InvalidPayloadDataException('Invalid payload data to update an aircraft.')
 
@@ -59,7 +59,7 @@ class AircraftService {
     return updatedAircraft;
   }
 
-  static async delete(id: string) {
+  async delete(id: string) {
     const aircraft = await AircraftRepository.findById(id);
     if (aircraft == null) throw new AircraftNotFoundException;
 
@@ -67,4 +67,4 @@ class AircraftService {
   }
 }
 
-export default AircraftService;
+export default new AircraftService();

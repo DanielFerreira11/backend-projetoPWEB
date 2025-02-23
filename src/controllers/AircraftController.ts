@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import AircraftService from "../services/AircraftService";
-import { AircraftNotFoundException } from "../exceptions/AircraftNotFoundException";
 import { Exception } from "../exceptions/Exception";
 
 class AircraftController {
