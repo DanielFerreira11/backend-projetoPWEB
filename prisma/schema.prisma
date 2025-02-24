@@ -22,7 +22,6 @@ model Instructor {
   name      String
   email     String    @unique
   phone     String?
-  students  Student[]
   classes   Class[]
 
   @@map("instructor")
@@ -36,8 +35,6 @@ model Student {
   status       String
   class        Class? @relation(fields: [classId], references: [id], onDelete: Cascade)
   classId      String?
-  instructor   Instructor? @relation(fields: [instructorId], references: [id])
-  instructorId String?
 
   @@map("student")
 }
