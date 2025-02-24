@@ -9,6 +9,7 @@ import StudentRepository from "../repository/StudentRepository";
 const createStudentSchema = z.object({
   name: z.string(),
   email: z.string(),
+  password: z.string(),
   phone: z.string().optional(),
   status: z.enum(['In progress', 'Finished']),
   classId: z.string().uuid().optional(),
@@ -19,6 +20,7 @@ type CreateStudentPayload = z.infer<typeof createStudentSchema>;
 const updateStudentSchema = z.object({
   name: z.string().optional(),
   email: z.string().optional(),
+  password: z.string().optional(),
   phone: z.string().optional(),
   status: z.enum(['In progress', 'Finished']).optional(),
   classId: z.string().uuid().optional(),

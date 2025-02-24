@@ -4,6 +4,7 @@ import prisma from "../database/prisma";
 interface CreateStudentPayload {
   name: string;
   email: string;
+  password: string;
   phone?: string;
   status: string;
   classId?: string;
@@ -12,6 +13,7 @@ interface CreateStudentPayload {
 interface UpdateStudentPayload {
   name?: string;
   email?: string;
+  password?: string;
   phone?: string;
   status?: string;
   classId?: string;
@@ -23,6 +25,7 @@ class StudentRepository {
       data: {
         name: payload.name,
         email: payload.email,
+        password: payload.password,
         phone: payload.phone,
         status: payload.status,
         classId: payload.classId,
@@ -54,6 +57,7 @@ class StudentRepository {
       data: {
         name: payload.name,
         email: payload.email,
+        password: payload.password,
         phone: payload.phone,
         status: payload.status,
       },
