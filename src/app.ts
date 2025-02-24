@@ -6,6 +6,7 @@ import AdminRoutes from "./routes/AdminRoutes";
 import AircraftRoutes from "./routes/AircraftRoutes";
 import ClassRoutes from "./routes/ClassRoutes";
 import InstructorRoutes from "./routes/InstructorRoutes";
+import StudentRoutes from "./routes/StudentRoutes";
 
 dotenv.config();
 
@@ -16,5 +17,6 @@ app.use(AdminRoutes);
 app.use(AircraftRoutes);
 app.use(ClassRoutes);
 app.use(InstructorRoutes);
+app.use(StudentRoutes);
 
 export default app;
