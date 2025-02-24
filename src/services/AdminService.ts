@@ -7,7 +7,6 @@ import { AlreadyExistsException } from "../exceptions/AlreadyExistsException";
 const createAdminSchema = z.object({
   name: z.string(),
   email: z.string().email(),
-  instructorId: z.string().uuid().optional(),
   password: z.string(),
   role: z.string(),
 });
@@ -17,7 +16,6 @@ type CreateAdminPayload = z.infer<typeof createAdminSchema>;
 const updateAdminSchema = z.object({
   name: z.string().optional(),
   password: z.string().optional(),
-  instructorId: z.string().optional(),
   role: z.string().optional(),
 });
 
@@ -33,7 +31,7 @@ class AdminService {
     
     const admin = await AdminRepository.findByEmail(payload.email);
   
-    if (admin != null) throw new AlreadyExistsException('Already exists an aircraft with this email.')
+    if (admin != null) throw new AlreadyExistsException('Already exists an admin with this email.')
 
     const createdAdmin = await AdminRepository.create(payload);
 
@@ -42,7 +40,7 @@ class AdminService {
 
   async getById(id: string) {
     const admin = await AdminRepository.findById(id);
-    if (admin == null) throw new UserNotFoundException;
+    if (admin == null) throw new UserNotFoundException('Admin not found.');
 
     return admin;
   }
@@ -53,7 +51,7 @@ class AdminService {
 
     const admin = await AdminRepository.findById(id);
 
-    if (admin == null) throw new UserNotFoundException;
+    if (admin == null) throw new UserNotFoundException('Admin not found.');
 
     const payload = validationPayload.data;
 
@@ -64,7 +62,7 @@ class AdminService {
 
   async delete(id: string) {
     const admin = await AdminRepository.findById(id);
-    if (admin == null) throw new UserNotFoundException;
+    if (admin == null) throw new UserNotFoundException('Admin not found.');
 
     return await AdminRepository.delete(id);
   }

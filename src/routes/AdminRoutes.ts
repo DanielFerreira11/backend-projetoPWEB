@@ -97,9 +97,6 @@ router.get("/admin/:id", AdminController.getById);
  *               name:
  *                 type: string
  *                 example: "Jane Doe"
- *               instructorId:
- *                 type: string
- *                 example: "386a3b61-ee6a-410d-95b1-db4818b6bfe4"
  *               password:
  *                 type: string
  *                 example: "newsecurepassword"

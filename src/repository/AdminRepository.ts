@@ -4,7 +4,6 @@ import prisma from '../database/prisma';
 interface CreateAdminPayload {
   name: string;
   email: string;
-  instructorId?: string,
   password: string;
   role: string;
 }
@@ -12,13 +11,20 @@ interface CreateAdminPayload {
 interface UpdateAdminPayload {
   name?: string;
   password?: string;
-  instructorId?: string;
   role?: string;
 }
 
 class AdminRepository {
   static async create(payload: CreateAdminPayload): Promise<Admin> {
-    const admin = await prisma.admin.create({ data: payload });
+    const admin = await prisma.admin.create({
+      data: {
+        name: payload.name,
+        email: payload.email,
+        password: payload.password,
+        role: payload.role,
+      },
+    });
+
     return admin;
   }
 
@@ -30,7 +36,7 @@ class AdminRepository {
     return admin;
   }
 
-  static async findByEmail(email: Admin['email']): Promise <Admin | null> {
+  static async findByEmail(email: Admin['email']): Promise<Admin | null> {
     const admin = await prisma.admin.findUnique({
       where: { email },
     });
@@ -41,10 +47,9 @@ class AdminRepository {
   static async update(id: Admin['id'], payload: UpdateAdminPayload): Promise<Admin> {
     const updatedAdmin = await prisma.admin.update({
       where: { id },
-      data : {
+      data: {
         name: payload.name,
         password: payload.password,
-        instructorId: payload.instructorId,
         role: payload.role,
       },
     });

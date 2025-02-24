@@ -5,6 +5,7 @@ import swaggerSpec from "./config/swagger";
 import AdminRoutes from "./routes/AdminRoutes";
 import AircraftRoutes from "./routes/AircraftRoutes";
 import ClassRoutes from "./routes/ClassRoutes";
+import InstructorRoutes from "./routes/InstructorRoutes";
 
 dotenv.config();
 
@@ -14,7 +15,6 @@ app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 app.use(AdminRoutes);
 app.use(AircraftRoutes);
 app.use(ClassRoutes);
-
-
+app.use(InstructorRoutes);
 
 export default app;

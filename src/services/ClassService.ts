@@ -2,6 +2,10 @@ import { z } from "zod";
 import ClassRepository from "../repository/ClassRepository";
 import { InvalidPayloadDataException } from "../exceptions/InvalidPayloadDataException";
 import { ClassNotFoundException } from "../exceptions/ClassNotFoundException";
+import InstructorRepository from "../repository/InstructorRepository";
+import { UserNotFoundException } from "../exceptions/UserNotFoundException";
+import AircraftRepository from "../repository/AircraftRepository";
+import { AircraftNotFoundException } from "../exceptions/AircraftNotFoundException";
 
 const createClassSchema = z.object({
   name: z.string(),
@@ -27,6 +31,16 @@ class ClassService {
     if (!validationPayload.success) throw new InvalidPayloadDataException('Invalid payload data to create a class.')
 
     const payload = validationPayload.data;
+
+    if (payload.instructorId != undefined) {
+      const instructor = await InstructorRepository.findById(payload.instructorId);
+      if (instructor == null) throw new UserNotFoundException('Instructor not found.');
+    }
+
+    if (payload.aircraftId != undefined) {
+      const aircraft = await AircraftRepository.findById(payload.aircraftId);
+      if (aircraft == null) throw new AircraftNotFoundException();
+    }
 
     const createdClass = await ClassRepository.create(payload);
 
@@ -58,6 +72,16 @@ class ClassService {
     if (classGroup == null) throw new ClassNotFoundException();
 
     const payload = validationPayload.data;
+
+    if (payload.instructorId != undefined) {
+      const instructor = await InstructorRepository.findById(payload.instructorId);
+      if (instructor == null) throw new UserNotFoundException('Instructor not found.');
+    }
+
+    if (payload.aircraftId != undefined) {
+      const aircraft = await AircraftRepository.findById(payload.aircraftId);
+      if (aircraft == null) throw new AircraftNotFoundException();
+    }
 
     const updatedClass = await ClassRepository.update(id, payload);
 

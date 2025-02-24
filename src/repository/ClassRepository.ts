@@ -46,7 +46,7 @@ class ClassRepository {
   }
 
   static async update(id: Class['id'], payload: UpdateClassPayload): Promise<Class> {
-    const classGroup = await prisma.class.update({
+    const updatedClass = await prisma.class.update({
       where: { id },
       data: {
         name: payload.name,
@@ -57,7 +57,7 @@ class ClassRepository {
       include: { instructor: true, aircraft: true, students: true },
     });
 
-    return classGroup;
+    return updatedClass;
   }
 
   static async delete(id: Class['id']) {

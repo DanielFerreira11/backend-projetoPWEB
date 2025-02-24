@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import ClassService from "../services/ClassService";
 import { Exception } from "../exceptions/Exception";
-import ClassRepository from "../repository/ClassRepository";
 
 class ClassController {
   async create(req: Request, res: Response): Promise<void> {

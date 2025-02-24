@@ -30,6 +30,7 @@ class AircraftRepository {
   static async findById(id: Aircraft['id']): Promise<Aircraft | null> {
     const aircraft = await prisma.aircraft.findUnique({
       where: { id },
+      include: { classes: true },
     });
 
     return aircraft;
@@ -51,6 +52,7 @@ class AircraftRepository {
         register: payload.register,
         status: payload.status,
       },
+      include: { classes: true },
     });
 
     return updatedAircraft;
