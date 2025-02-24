@@ -69,9 +69,9 @@ class InstructorService {
   }
 
   async delete(id: string) {
-    const classGroup = await InstructorRepository.findById(id);
+    const instructor = await InstructorRepository.findById(id);
 
-    if (classGroup == null) throw new UserNotFoundException('Instructor not found.');
+    if (instructor == null) throw new UserNotFoundException('Instructor not found.');
 
     return await InstructorRepository.delete(id);
   }
