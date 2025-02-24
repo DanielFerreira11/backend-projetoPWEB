@@ -94,13 +94,16 @@ router.get("/aircraft/:id", AircraftController.getById);
  *               model:
  *                 type: string
  *                 example: "Airbus A320"
+ *                 nullable: true
  *               register:
  *                 type: string
  *                 example: "XYZ-789"
+ *                 nullable: true
  *               status:
  *                 type: string
  *                 enum: ["Available", "Under maintenance"]
  *                 example: "Under maintenance"
+ *                 nullable: true
  *     responses:
  *       200:
  *         description: Aircraft successfully updated

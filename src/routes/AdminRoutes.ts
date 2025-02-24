@@ -97,12 +97,15 @@ router.get("/admin/:id", AdminController.getById);
  *               name:
  *                 type: string
  *                 example: "Jane Doe"
+ *                 nullable: true
  *               password:
  *                 type: string
  *                 example: "newsecurepassword"
+ *                 nullable: true
  *               role:
  *                 type: string
  *                 example: "admin"
+ *                 nullable: true
  *     responses:
  *       200:
  *         description: Admin successfully updated
