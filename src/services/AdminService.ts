@@ -8,7 +8,7 @@ const createAdminSchema = z.object({
   name: z.string(),
   email: z.string().email(),
   password: z.string(),
-  role: z.string(),
+  role: z.enum(['President', 'Vice president', 'Secretary', 'Treasurer']),
 });
 
 type CreateAdminPayload = z.infer<typeof createAdminSchema>;
@@ -16,7 +16,7 @@ type CreateAdminPayload = z.infer<typeof createAdminSchema>;
 const updateAdminSchema = z.object({
   name: z.string().optional(),
   password: z.string().optional(),
-  role: z.string().optional(),
+  role: z.enum(['President', 'Vice president', 'Secretary', 'Treasurer']),
 });
 
 type UpdateAdminPayload = z.infer<typeof updateAdminSchema>;

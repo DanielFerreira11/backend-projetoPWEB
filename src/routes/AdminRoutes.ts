@@ -40,7 +40,8 @@ const router = Router();
  *                 example: "securepassword"
  *               role:
  *                 type: string
- *                 example: "master"
+ *                 enum: ["President", "Vice president", "Secretary", "Treasurer"]
+ *                 example: "Secretary"
  *     responses:
  *       201:
  *         description: Admin successfully created
@@ -104,7 +105,8 @@ router.get("/admin/:id", AdminController.getById);
  *                 nullable: true
  *               role:
  *                 type: string
- *                 example: "admin"
+ *                 enum: ["President", "Vice president", "Secretary", "Treasurer"]
+ *                 example: "Vice president"
  *                 nullable: true
  *     responses:
  *       200:

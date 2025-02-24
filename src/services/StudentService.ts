@@ -11,7 +11,7 @@ const createStudentSchema = z.object({
   email: z.string(),
   password: z.string(),
   phone: z.string().optional(),
-  status: z.enum(['In progress', 'Finished']),
+  status: z.enum(['Active', 'Inactive']),
   classId: z.string().uuid().optional(),
 });
 
@@ -22,7 +22,7 @@ const updateStudentSchema = z.object({
   email: z.string().optional(),
   password: z.string().optional(),
   phone: z.string().optional(),
-  status: z.enum(['In progress', 'Finished']).optional(),
+  status: z.enum(['Active', 'Inactive']).optional(),
   classId: z.string().uuid().optional(),
 });
 

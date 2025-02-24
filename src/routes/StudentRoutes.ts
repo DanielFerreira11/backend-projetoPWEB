@@ -44,8 +44,8 @@ const router = Router();
  *                 nullable: true
  *               status:
  *                 type: string
- *                 enum: ["In progress", "Finished"]
- *                 example: "In progress"
+ *                 enum: ["Active", "Inactive"]
+ *                 example: "Active"
  *               classId:
  *                 type: string
  *                 example: "123e4567-e89b-12d3-a456-426614174000"
@@ -123,8 +123,8 @@ router.get("/student/:id", StudentController.getById);
  *                 nullable: true
  *               status:
  *                 type: string
- *                 enum: ["In progress", "Finished"]
- *                 example: "Finished"
+ *                 enum: ["Active", "Inactive"]
+ *                 example: "Inactive"
  *                 nullable: true
  *               classId:
  *                 type: string
