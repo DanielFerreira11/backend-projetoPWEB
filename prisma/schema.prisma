@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id           String    @id @default(uuid())
+  instructor   Instructor? @relation(fields: [instructorId], references: [id], onDelete: Cascade)
+  instructorId String?    @unique
+  name         String
+  email        String    @unique
+  password     String
+  role         String
+
+  @@map("admin")
+}
+
+model Instructor {
+  id        String    @id @default(uuid())
+  name      String
+  email     String    @unique
+  phone     String?
+  admin     Admin?
+  students  Student[]
+  classes   Class[]
+
+  @@map("instructor")
+}
+
+model Student {
+  id           String    @id @default(uuid())
+  name         String
+  email        String    @unique
+  phone        String?
+  status       String
+  class        Class? @relation(fields: [classId], references: [id], onDelete: Cascade)
+  classId      String?
+  instructor   Instructor? @relation(fields: [instructorId], references: [id])
+  instructorId String?
+
+  @@map("student")
+}
+
+model Aircraft {
+  id        String   @id @default(uuid())
+  model     String
+  register  String   @unique
+  status    String
+  classes   Class[]
+
+  @@map("aircraft")
+}
+
+model Class {
+  id           String    @id @default(uuid())
+  name         String
+  instructor   Instructor? @relation(fields: [instructorId], references: [id], onDelete: Cascade)
+  instructorId String?
+  aircraft     Aircraft? @relation(fields: [aircraftId], references: [id], onDelete: Cascade)
+  aircraftId   String?
+  schedule     String
+  students     Student[]
+
+  @@map("class")
+}
