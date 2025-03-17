@@ -1,5 +1,6 @@
 import { Router } from "express";
 import ClassController from "../controllers/ClassController";
+import { authenticate } from "../middlewares/authMiddleware";
 
 const router = Router();
 
@@ -45,7 +46,7 @@ const router = Router();
  *       500:
  *         description: Internal server error
  */
-router.post("/class", ClassController.create);
+router.post("/class", authenticate, ClassController.create);
 
 /**
  * @swagger
@@ -125,7 +126,7 @@ router.get("/class", ClassController.getAll);
  *       500:
  *         description: Internal server error
  */
-router.put("/class/:id", ClassController.update);
+router.put("/class/:id", authenticate, ClassController.update);
 
 /**
  * @swagger
@@ -149,6 +150,6 @@ router.put("/class/:id", ClassController.update);
  *       500:
  *         description: Internal server error
  */
-router.delete("/class/:id", ClassController.delete);
+router.delete("/class/:id", authenticate, ClassController.delete);
 
 export default router;
