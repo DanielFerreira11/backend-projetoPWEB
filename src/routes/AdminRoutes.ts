@@ -1,5 +1,6 @@
 import { Router } from "express";
 import AdminController from "../controllers/AdminController";
+import { authenticate } from "../middlewares/authMiddleware";
 
 const router = Router();
 
@@ -118,7 +119,7 @@ router.get("/admin/:id", AdminController.getById);
  *       500:
  *         description: Internal server error
  */
-router.put("/admin/:id", AdminController.update);
+router.put("/admin/:id", authenticate, AdminController.update);
 
 /**
  * @swagger
@@ -143,6 +144,6 @@ router.put("/admin/:id", AdminController.update);
  *         description: Internal server error
  */
 
-router.delete("/admin/:id", AdminController.delete);
+router.delete("/admin/:id", authenticate, AdminController.delete);
 
 export default router;

@@ -5,6 +5,7 @@ import { AlreadyExistsException } from "../exceptions/AlreadyExistsException";
 import ClassRepository from "../repository/ClassRepository";
 import { ClassNotFoundException } from "../exceptions/ClassNotFoundException";
 import StudentRepository from "../repository/StudentRepository";
+import { hashPassword } from "../utils/auth";
 
 const createStudentSchema = z.object({
   name: z.string(),
@@ -45,7 +46,11 @@ class StudentService {
 
     if (student != null) throw new AlreadyExistsException('A student with this email already exists');
 
-    const createdStudent = await StudentRepository.create(payload);
+    const encryptedPassword = await hashPassword(payload.password);
+    
+    const payloadWithEncryptedPassword = { ...payload, password: encryptedPassword }
+
+    const createdStudent = await StudentRepository.create(payloadWithEncryptedPassword);
 
     return createdStudent;
   }

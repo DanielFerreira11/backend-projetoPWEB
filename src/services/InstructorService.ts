@@ -3,6 +3,7 @@ import { InvalidPayloadDataException } from "../exceptions/InvalidPayloadDataExc
 import { UserNotFoundException } from "../exceptions/UserNotFoundException";
 import InstructorRepository from "../repository/InstructorRepository";
 import { AlreadyExistsException } from "../exceptions/AlreadyExistsException";
+import { hashPassword } from "../utils/auth";
 
 const createInstructorSchema = z.object({
   name: z.string(),
@@ -25,16 +26,20 @@ type UpdateInstructorPayload = z.infer<typeof updateInstructorSchema>;
 class InstructorService {
   async create(data: CreateInstructorPayload) {
     const validationPayload = createInstructorSchema.safeParse(data);
-    
+
     if (!validationPayload.success) throw new InvalidPayloadDataException('Invalid payload data to create a instructor.')
 
     const payload = validationPayload.data;
- 
+
     const instructor = await InstructorRepository.findByEmail(payload.email);
 
     if (instructor != null) throw new AlreadyExistsException('An instructor with this email already exists');
 
-    const createdInstructor = await InstructorRepository.create(payload);
+    const encryptedPassword = await hashPassword(payload.password);
+
+    const payloadWithEncryptedPassword = { ...payload, password: encryptedPassword }
+
+    const createdInstructor = await InstructorRepository.create(payloadWithEncryptedPassword);
 
     return createdInstructor;
   }
