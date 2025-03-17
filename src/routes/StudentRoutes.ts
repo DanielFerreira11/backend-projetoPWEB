@@ -35,7 +35,7 @@ const router = Router();
  *               email:
  *                 type: string
  *                 example: "alice.johnson@example.com"
- *              password:
+ *               password:
  *                 type: string
  *                 example: "securepassword"
  *               phone:

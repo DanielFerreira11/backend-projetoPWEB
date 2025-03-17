@@ -34,7 +34,7 @@ const router = Router();
  *               email:
  *                 type: string
  *                 example: "jane.smith@example.com"
- *              password:
+ *               password:
  *                 type: string
  *                 example: "securepassword"
  *               phone:
@@ -119,7 +119,7 @@ router.get("/instructor", InstructorController.getAll);
  *                 type: string
  *                 example: "john.doe@example.com"
  *                 nullable: true
- *              password:
+ *               password:
  *                 type: string
  *                 example: "securepassword"
  *                 nullable: true

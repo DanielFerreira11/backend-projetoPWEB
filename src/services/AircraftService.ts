@@ -10,13 +10,15 @@ const createAircraftSchema = z.object({
   status: z.enum(["Available", "Under maintenance"]),
 });
 
-type CreateAircraftPayload = z.infer<typeof createAircraftSchema>;
+export type CreateAircraftPayload = z.infer<typeof createAircraftSchema>;
 
 const updateAircraftSchema = z.object({
   model: z.string().optional(),
   register: z.string().optional(),
   status: z.enum(["Available", "Under maintenance"]).optional(),
 });
+
+
 
 type UpdateAircraftPayload = z.infer<typeof updateAircraftSchema>;
 

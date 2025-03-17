@@ -142,7 +142,6 @@ router.put("/admin/:id", AdminController.update);
  *       500:
  *         description: Internal server error
  */
-
 router.delete("/admin/:id", AdminController.delete);
 
 export default router;
