@@ -1,5 +1,6 @@
 import { Router } from "express";
 import AircraftController from "../controllers/AircraftController";
+import { authenticate } from "../middlewares/authMiddleware";
 
 const router = Router();
 
@@ -46,7 +47,7 @@ const router = Router();
  *       500:
  *         description: Internal server error
  */
-router.post("/aircraft", AircraftController.create);
+router.post("/aircraft", authenticate, AircraftController.create);
 
 /**
  * @swagger
@@ -114,7 +115,7 @@ router.get("/aircraft/:id", AircraftController.getById);
  *       500:
  *         description: Internal server error
  */
-router.put("/aircraft/:id", AircraftController.update);
+router.put("/aircraft/:id", authenticate, AircraftController.update);
 
 /**
  * @swagger
@@ -138,6 +139,6 @@ router.put("/aircraft/:id", AircraftController.update);
  *       500:
  *         description: Internal server error
  */
-router.delete("/aircraft/:id", AircraftController.delete);
+router.delete("/aircraft/:id", authenticate, AircraftController.delete);
 
 export default router;

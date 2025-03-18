@@ -6,6 +6,9 @@ import ClassService from "../../src/services/ClassService";
 import { InvalidPayloadDataException } from "../../src/exceptions/InvalidPayloadDataException";
 import { ClassNotFoundException } from "../../src/exceptions/ClassNotFoundException";
 import { UserNotFoundException } from "../../src/exceptions/UserNotFoundException";
+import { generateToken } from "../../src/utils/auth";
+
+const validToken = generateToken("test-id", "test@example.com");
 
 describe("ClassController", function () {
   afterEach(function () {
@@ -50,8 +53,8 @@ describe("ClassController", function () {
 
     const res = await request(app)
       .post("/class")
+      .set("Authorization", "Bearer " + validToken)
       .send({ name: "Class 1", schedule: "Monday at 10 AM" });
-
     expect(res.status).to.equal(201);
     expect(res.body).to.deep.equal(fakeClass);
   });
@@ -62,8 +65,8 @@ describe("ClassController", function () {
 
     const res = await request(app)
       .post("/class")
+      .set("Authorization", "Bearer " + validToken)
       .send({ invalidField: "nope" });
-
     expect(res.status).to.equal(error.statusCode);
     expect(res.body).to.have.property("error", error.message);
   });
@@ -74,12 +77,8 @@ describe("ClassController", function () {
 
     const res = await request(app)
       .post("/class")
-      .send({
-        name: "Class 1",
-        schedule: "Monday at 10 AM",
-        instructorId: "non-existent",
-      });
-
+      .set("Authorization", "Bearer " + validToken)
+      .send({ name: "Class 1", schedule: "Monday at 10 AM", instructorId: "non-existent" });
     expect(res.status).to.equal(error.statusCode);
     expect(res.body).to.have.property("error", error.message);
   });
@@ -87,7 +86,9 @@ describe("ClassController", function () {
   it("should retrieve a class successfully via GET /class/:id", async function () {
     sinon.stub(ClassService, "getById").resolves(fakeClass);
 
-    const res = await request(app).get(`/class/${fakeClass.id}`);
+    const res = await request(app)
+      .get(`/class/${fakeClass.id}`)
+      .set("Authorization", "Bearer " + validToken);
     expect(res.status).to.equal(200);
     expect(res.body).to.deep.equal(fakeClass);
   });
@@ -96,7 +97,9 @@ describe("ClassController", function () {
     const error = new ClassNotFoundException();
     sinon.stub(ClassService, "getById").rejects(error);
 
-    const res = await request(app).get("/class/non-existent");
+    const res = await request(app)
+      .get("/class/non-existent")
+      .set("Authorization", "Bearer " + validToken);
     expect(res.status).to.equal(error.statusCode);
     expect(res.body).to.have.property("error", error.message);
   });
@@ -104,7 +107,9 @@ describe("ClassController", function () {
   it("should retrieve all classes successfully via GET /class", async function () {
     sinon.stub(ClassService, "getAll").resolves(fakeClasses);
 
-    const res = await request(app).get("/class");
+    const res = await request(app)
+      .get("/class")
+      .set("Authorization", "Bearer " + validToken);
     expect(res.status).to.equal(200);
     expect(res.body).to.deep.equal(fakeClasses);
   });
@@ -114,20 +119,20 @@ describe("ClassController", function () {
 
     const res = await request(app)
       .put(`/class/${fakeClass.id}`)
+      .set("Authorization", "Bearer " + validToken)
       .send({ name: "Updated Class", schedule: "Friday at 3 PM" });
-
     expect(res.status).to.equal(200);
     expect(res.body).to.deep.equal(fakeUpdated);
   });
 
   it("should return 400 when updating a class with invalid payload", async function () {
-    const error = new InvalidPayloadDataException("Invalid payload data to update an class.");
+    const error = new InvalidPayloadDataException("Invalid payload data to update a class.");
     sinon.stub(ClassService, "update").rejects(error);
 
     const res = await request(app)
       .put(`/class/${fakeClass.id}`)
+      .set("Authorization", "Bearer " + validToken)
       .send({ invalidField: "oops" });
-
     expect(res.status).to.equal(error.statusCode);
     expect(res.body).to.have.property("error", error.message);
   });
@@ -135,7 +140,9 @@ describe("ClassController", function () {
   it("should delete a class successfully via DELETE /class/:id", async function () {
     sinon.stub(ClassService, "delete").resolves();
 
-    const res = await request(app).delete(`/class/${fakeClass.id}`);
+    const res = await request(app)
+      .delete(`/class/${fakeClass.id}`)
+      .set("Authorization", "Bearer " + validToken);
     expect(res.status).to.equal(200);
   });
 
@@ -143,7 +150,9 @@ describe("ClassController", function () {
     const error = new ClassNotFoundException();
     sinon.stub(ClassService, "delete").rejects(error);
 
-    const res = await request(app).delete("/class/non-existent");
+    const res = await request(app)
+      .delete("/class/non-existent")
+      .set("Authorization", "Bearer " + validToken);
     expect(res.status).to.equal(error.statusCode);
     expect(res.body).to.have.property("error", error.message);
   });

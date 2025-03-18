@@ -1,8 +1,9 @@
 import { z } from "zod";
 import { UserNotFoundException } from "../exceptions/UserNotFoundException";
-import AdminRepository from "../repository/AdminRepository";
 import { InvalidPayloadDataException } from "../exceptions/InvalidPayloadDataException";
 import { AlreadyExistsException } from "../exceptions/AlreadyExistsException";
+import AdminRepository from "../repository/AdminRepository";
+import { hashPassword } from "../utils/auth";
 
 const createAdminSchema = z.object({
   name: z.string(),
@@ -22,18 +23,22 @@ const updateAdminSchema = z.object({
 type UpdateAdminPayload = z.infer<typeof updateAdminSchema>;
 
 class AdminService {
-  
+
   async create(data: CreateAdminPayload) {
     const validationPayload = createAdminSchema.safeParse(data);
     if (!validationPayload.success) throw new InvalidPayloadDataException('Invalid payload data to create an admin.');
 
     const payload = validationPayload.data;
-    
+
     const admin = await AdminRepository.findByEmail(payload.email);
-  
+
     if (admin != null) throw new AlreadyExistsException('Already exists an admin with this email.')
 
-    const createdAdmin = await AdminRepository.create(payload);
+    const encryptedPassword = await hashPassword(payload.password);
+
+    const payloadWithEncryptedPassword = { ...payload, password: encryptedPassword }
+
+    const createdAdmin = await AdminRepository.create(payloadWithEncryptedPassword);
 
     return createdAdmin;
   }
