@@ -88,7 +88,6 @@ describe("ClassController", function () {
 
     const res = await request(app)
       .get(`/class/${fakeClass.id}`)
-      .set("Authorization", "Bearer " + validToken);
     expect(res.status).to.equal(200);
     expect(res.body).to.deep.equal(fakeClass);
   });
@@ -99,7 +98,6 @@ describe("ClassController", function () {
 
     const res = await request(app)
       .get("/class/non-existent")
-      .set("Authorization", "Bearer " + validToken);
     expect(res.status).to.equal(error.statusCode);
     expect(res.body).to.have.property("error", error.message);
   });
@@ -109,7 +107,6 @@ describe("ClassController", function () {
 
     const res = await request(app)
       .get("/class")
-      .set("Authorization", "Bearer " + validToken);
     expect(res.status).to.equal(200);
     expect(res.body).to.deep.equal(fakeClasses);
   });

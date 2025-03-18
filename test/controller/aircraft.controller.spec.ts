@@ -68,7 +68,6 @@ describe("AircraftController", function () {
 
     const res = await request(app)
       .get(`/aircraft/${fakeAircraft.id}`)
-      .set("Authorization", "Bearer " + validToken);
     expect(res.status).to.equal(200);
     expect(res.body).to.deep.equal(fakeAircraft);
   });
@@ -79,7 +78,6 @@ describe("AircraftController", function () {
 
     const res = await request(app)
       .get("/aircraft/non-existent")
-      .set("Authorization", "Bearer " + validToken);
     expect(res.status).to.equal(error.statusCode);
     expect(res.body).to.have.property("error", error.message);
   });
