@@ -7,14 +7,11 @@ class ClassController {
     try {
       const createdClass = await ClassService.create(req.body);
       res.status(201).json(createdClass);
-      return;
     } catch (err) {
       if (err instanceof Exception) {
         res.status(err.statusCode).json({ error: err.message });
-        return;
       } else {
-        res.status(500).json({ error: 'Internal server error.' })
-        return;
+        res.status(500).json({ error: "Internal server error." });
       }
     }
   }
@@ -27,10 +24,8 @@ class ClassController {
     } catch (err) {
       if (err instanceof Exception) {
         res.status(err.statusCode).json({ error: err.message });
-        return;
       } else {
-        res.status(500).json({ error: 'Internal server error.' })
-        return;
+        res.status(500).json({ error: "Internal server error." });
       }
     }
   }
@@ -39,14 +34,11 @@ class ClassController {
     try {
       const classes = await ClassService.getAll();
       res.status(200).json(classes);
-      return;
     } catch (err) {
       if (err instanceof Exception) {
         res.status(err.statusCode).json({ error: err.message });
-        return;
       } else {
-        res.status(500).json({ error: 'Internal server error.' })
-        return;
+        res.status(500).json({ error: "Internal server error." });
       }
     }
   }
@@ -56,14 +48,11 @@ class ClassController {
       const id = req.params.id as string;
       const updatedClass = await ClassService.update(id, req.body);
       res.status(200).json(updatedClass);
-      return;
     } catch (err) {
       if (err instanceof Exception) {
         res.status(err.statusCode).json({ error: err.message });
-        return;
       } else {
-        res.status(500).json({ error: 'Internal server error.' })
-        return;
+        res.status(500).json({ error: "Internal server error." });
       }
     }
   }
@@ -76,10 +65,8 @@ class ClassController {
     } catch (err) {
       if (err instanceof Exception) {
         res.status(err.statusCode).json({ error: err.message });
-        return;
       } else {
-        res.status(500).json({ error: 'Internal server error.' })
-        return;
+        res.status(500).json({ error: "Internal server error." });
       }
     }
   }
