@@ -15,6 +15,8 @@ const router = Router();
  * @swagger
  * /aircraft:
  *   post:
+ *     security:
+ *       - BearerAuth: []
  *     summary: Create a new aircraft
  *     description: Adds a new aircraft to the system.
  *     tags: [Aircraft]
@@ -90,6 +92,8 @@ router.get("/aircraft/:id", AircraftController.getById);
  * @swagger
  * /aircraft/{id}:
  *   put:
+ *     security:
+ *       - BearerAuth: []
  *     summary: Update an aircraft by ID
  *     description: Updates the details of an existing aircraft.
  *     tags: [Aircraft]
@@ -136,6 +140,8 @@ router.put("/aircraft/:id", authenticate, AircraftController.update);
  * @swagger
  * /aircraft/{id}:
  *   delete:
+ *     security:
+ *       - BearerAuth: []
  *     summary: Delete an aircraft by ID
  *     description: Removes an aircraft from the system.
  *     tags: [Aircraft]

@@ -14,11 +14,10 @@ dotenv.config();
 
 const app = express();
 
-// Configuração do CORS
 app.use(cors({
-  origin: "http://localhost:3000", // Permite acesso somente a partir do front-end
+  origin: "http://localhost:3000",
   methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true, // Caso precise enviar cookies ou autenticação
+  credentials: true,
 }));
 
 app.use(express.json());
