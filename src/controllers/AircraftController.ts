@@ -7,14 +7,11 @@ class AircraftController {
     try {
       const aircraft = await AircraftService.create(req.body);
       res.status(201).json(aircraft);
-      return;
     } catch (err) {
       if (err instanceof Exception) {
         res.status(err.statusCode).json({ error: err.message });
-        return;
       } else {
-        res.status(500).json({ error: 'Internal server error.' })
-        return;
+        res.status(500).json({ error: 'Internal server error.' });
       }
     }
   }
@@ -24,15 +21,22 @@ class AircraftController {
       const id = req.params.id as string;
       const aircraft = await AircraftService.getById(id);
       res.status(200).json(aircraft);
-      return;
     } catch (err) {
       if (err instanceof Exception) {
         res.status(err.statusCode).json({ error: err.message });
-        return;
       } else {
-        res.status(500).json({ error: 'Internal server error.' })
-        return;
+        res.status(500).json({ error: 'Internal server error.' });
       }
+    }
+  }
+
+  // Novo: listagem de todas as aeronaves
+  async list(req: Request, res: Response): Promise<void> {
+    try {
+      const aircrafts = await AircraftService.getAll();
+      res.status(200).json(aircrafts);
+    } catch (err) {
+      res.status(500).json({ error: 'Internal server error.' });
     }
   }
 
@@ -41,14 +45,11 @@ class AircraftController {
       const id = req.params.id as string;
       const updatedAircraft = await AircraftService.update(id, req.body);
       res.status(200).json(updatedAircraft);
-      return;
     } catch (err) {
       if (err instanceof Exception) {
         res.status(err.statusCode).json({ error: err.message });
-        return;
       } else {
-        res.status(500).json({ error: 'Internal server error.' })
-        return;
+        res.status(500).json({ error: 'Internal server error.' });
       }
     }
   }
@@ -58,14 +59,11 @@ class AircraftController {
       const id = req.params.id as string;
       await AircraftService.delete(id);
       res.status(200).json();
-      return;
     } catch (err) {
       if (err instanceof Exception) {
         res.status(err.statusCode).json({ error: err.message });
-        return;
       } else {
-        res.status(500).json({ error: 'Internal server error.' })
-        return;
+        res.status(500).json({ error: 'Internal server error.' });
       }
     }
   }

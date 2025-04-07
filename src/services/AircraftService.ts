@@ -17,54 +17,52 @@ const updateAircraftSchema = z.object({
   register: z.string().optional(),
   status: z.enum(["Available", "Under maintenance"]).optional(),
 });
-
-
-
-type UpdateAircraftPayload = z.infer<typeof updateAircraftSchema>;
+export type UpdateAircraftPayload = z.infer<typeof updateAircraftSchema>;
 
 class AircraftService {
   async create(data: CreateAircraftPayload) {
     const validationPayload = createAircraftSchema.safeParse(data);
-    if (!validationPayload.success) throw new InvalidPayloadDataException('Invalid payload data to create an aircraft.')
+    if (!validationPayload.success)
+      throw new InvalidPayloadDataException('Invalid payload data to create an aircraft.');
     
     const payload = validationPayload.data;
-
     const aircraft = await AircraftRepository.findByRegister(payload.register);
     
-    if (aircraft != null) throw new AlreadyExistsException('Already exists an aircraft with this register.')
+    if (aircraft != null)
+      throw new AlreadyExistsException('Already exists an aircraft with this register.');
     
     const createdAircraft = await AircraftRepository.create(payload);
-
     return createdAircraft;
   }
 
   async getById(id: string) {
     const aircraft = await AircraftRepository.findById(id);
-
     if (aircraft == null) throw new AircraftNotFoundException;
-
     return aircraft;
+  }
+
+  // Novo: método para obter todas as aeronaves
+  async getAll() {
+    const aircrafts = await AircraftRepository.findAll();
+    return aircrafts;
   }
 
   async update(id: string, data: UpdateAircraftPayload) {
     const validationPayload = updateAircraftSchema.safeParse(data);
-    if (!validationPayload.success) throw new InvalidPayloadDataException('Invalid payload data to update an aircraft.')
+    if (!validationPayload.success)
+      throw new InvalidPayloadDataException('Invalid payload data to update an aircraft.');
 
     const aircraft = await AircraftRepository.findById(id);
-
     if (aircraft == null) throw new AircraftNotFoundException;
 
     const payload = validationPayload.data;
-
     const updatedAircraft = await AircraftRepository.update(id, payload);
-
     return updatedAircraft;
   }
 
   async delete(id: string) {
     const aircraft = await AircraftRepository.findById(id);
     if (aircraft == null) throw new AircraftNotFoundException;
-
     return await AircraftRepository.deleteById(id);
   }
 }

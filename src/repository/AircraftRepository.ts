@@ -13,7 +13,6 @@ interface UpdateAircraftPayload {
   status?: string;
 }
 
-
 class AircraftRepository {
   static async create(payload: CreateAircraftPayload): Promise<Aircraft> {
     const aircraft = await prisma.aircraft.create({
@@ -23,7 +22,6 @@ class AircraftRepository {
         status: payload.status,
       },
     });
-
     return aircraft;
   }
 
@@ -32,7 +30,6 @@ class AircraftRepository {
       where: { id },
       include: { classes: true },
     });
-
     return aircraft;
   }
 
@@ -40,7 +37,6 @@ class AircraftRepository {
     const aircraft = await prisma.aircraft.findUnique({
       where: { register },
     });
-
     return aircraft;
   }
 
@@ -54,7 +50,6 @@ class AircraftRepository {
       },
       include: { classes: true },
     });
-
     return updatedAircraft;
   }
 
@@ -62,6 +57,14 @@ class AircraftRepository {
     return await prisma.aircraft.delete({
       where: { id },
     });
+  }
+
+  // Novo: busca todas as aeronaves para listagem no front-end
+  static async findAll(): Promise<Aircraft[]> {
+    const aircrafts = await prisma.aircraft.findMany({
+      include: { classes: true },
+    });
+    return aircrafts;
   }
 }
 

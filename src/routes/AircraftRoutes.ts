@@ -51,6 +51,21 @@ router.post("/aircraft", authenticate, AircraftController.create);
 
 /**
  * @swagger
+ * /aircraft:
+ *   get:
+ *     summary: Get all aircraft
+ *     description: Retrieves a list of all aircraft.
+ *     tags: [Aircraft]
+ *     responses:
+ *       200:
+ *         description: List of aircraft retrieved successfully
+ *       500:
+ *         description: Internal server error
+ */
+router.get("/aircraft", AircraftController.list);
+
+/**
+ * @swagger
  * /aircraft/{id}:
  *   get:
  *     summary: Get an aircraft by ID
