@@ -113,9 +113,6 @@ router.get("/class", ClassController.getAll);
  *               instructorId:
  *                 type: string
  *                 example: "987e6543-e21b-45d3-b654-567894321000"
- *               aircraftId:
- *                 type: string
- *                 example: "ba3b008a-b483-4eaa-9569-f5830d7477c2"
  *     responses:
  *       200:
  *         description: Class successfully updated
