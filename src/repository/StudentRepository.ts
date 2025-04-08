@@ -31,27 +31,22 @@ class StudentRepository {
         classId: payload.classId,
       },
     });
-
     return student;
   }
 
-  static async findById(id: Student['id']): Promise<Student | null> {
-    const student = await prisma.student.findUnique({
+  static async findById(id: Student["id"]): Promise<Student | null> {
+    return await prisma.student.findUnique({
       where: { id },
     });
-
-    return student;
   }
 
-  static async findByEmail(email: Student['email']): Promise<Student | null> {
-    const student = await prisma.student.findUnique({
+  static async findByEmail(email: Student["email"]): Promise<Student | null> {
+    return await prisma.student.findUnique({
       where: { email },
     });
-
-    return student;
   }
 
-  static async update(id: Student['id'], payload: UpdateStudentPayload): Promise<Student> {
+  static async update(id: Student["id"], payload: UpdateStudentPayload): Promise<Student> {
     const student = await prisma.student.update({
       where: { id },
       data: {
@@ -60,13 +55,13 @@ class StudentRepository {
         password: payload.password,
         phone: payload.phone,
         status: payload.status,
+        classId: payload.classId,
       },
     });
-
     return student;
   }
 
-  static async delete(id: Student['id']) {
+  static async delete(id: Student["id"]) {
     await prisma.student.delete({
       where: { id },
     });

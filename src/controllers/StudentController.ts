@@ -1,20 +1,17 @@
 import { Request, Response } from "express";
-import { Exception } from "../exceptions/Exception";
 import StudentService from "../services/StudentService";
+import { Exception } from "../exceptions/Exception";
 
 class StudentController {
   async create(req: Request, res: Response): Promise<void> {
     try {
       const createdStudent = await StudentService.create(req.body);
       res.status(201).json(createdStudent);
-      return;
     } catch (err) {
       if (err instanceof Exception) {
         res.status(err.statusCode).json({ error: err.message });
-        return;
       } else {
-        res.status(500).json({ error: 'Internal server error.' })
-        return;
+        res.status(500).json({ error: "Internal server error." });
       }
     }
   }
@@ -27,10 +24,8 @@ class StudentController {
     } catch (err) {
       if (err instanceof Exception) {
         res.status(err.statusCode).json({ error: err.message });
-        return;
       } else {
-        res.status(500).json({ error: 'Internal server error.' })
-        return;
+        res.status(500).json({ error: "Internal server error." });
       }
     }
   }
@@ -40,14 +35,11 @@ class StudentController {
       const id = req.params.id as string;
       const updatedStudent = await StudentService.update(id, req.body);
       res.status(200).json(updatedStudent);
-      return;
     } catch (err) {
       if (err instanceof Exception) {
         res.status(err.statusCode).json({ error: err.message });
-        return;
       } else {
-        res.status(500).json({ error: 'Internal server error.' })
-        return;
+        res.status(500).json({ error: "Internal server error." });
       }
     }
   }
@@ -60,10 +52,8 @@ class StudentController {
     } catch (err) {
       if (err instanceof Exception) {
         res.status(err.statusCode).json({ error: err.message });
-        return;
       } else {
-        res.status(500).json({ error: 'Internal server error.' })
-        return;
+        res.status(500).json({ error: "Internal server error." });
       }
     }
   }

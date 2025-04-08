@@ -12,7 +12,7 @@ const createInstructorSchema = z.object({
   phone: z.string().optional(),
 });
 
-type CreateInstructorPayload = z.infer<typeof createInstructorSchema>;
+export type CreateInstructorPayload = z.infer<typeof createInstructorSchema>;
 
 const updateInstructorSchema = z.object({
   name: z.string().optional(),
@@ -21,23 +21,24 @@ const updateInstructorSchema = z.object({
   phone: z.string().optional(),
 });
 
-type UpdateInstructorPayload = z.infer<typeof updateInstructorSchema>;
+export type UpdateInstructorPayload = z.infer<typeof updateInstructorSchema>;
 
 class InstructorService {
   async create(data: CreateInstructorPayload) {
     const validationPayload = createInstructorSchema.safeParse(data);
-
-    if (!validationPayload.success) throw new InvalidPayloadDataException('Invalid payload data to create a instructor.')
+    if (!validationPayload.success)
+      throw new InvalidPayloadDataException("Invalid payload data to create a instructor.");
 
     const payload = validationPayload.data;
 
     const instructor = await InstructorRepository.findByEmail(payload.email);
 
-    if (instructor != null) throw new AlreadyExistsException('An instructor with this email already exists');
+    if (instructor != null)
+      throw new AlreadyExistsException("An instructor with this email already exists");
 
     const encryptedPassword = await hashPassword(payload.password);
 
-    const payloadWithEncryptedPassword = { ...payload, password: encryptedPassword }
+    const payloadWithEncryptedPassword = { ...payload, password: encryptedPassword };
 
     const createdInstructor = await InstructorRepository.create(payloadWithEncryptedPassword);
 
@@ -46,40 +47,33 @@ class InstructorService {
 
   async getById(id: string) {
     const instructor = await InstructorRepository.findById(id);
-
-    if (instructor == null) throw new UserNotFoundException('Instructor not found.');
-
+    if (instructor == null) throw new UserNotFoundException("Instructor not found.");
     return instructor;
   }
 
   async getAll() {
     const instructors = await InstructorRepository.findAll();
-
-    if (instructors == null) throw new UserNotFoundException('Instructor not found.');
-
+    if (instructors == null) throw new UserNotFoundException("Instructor not found.");
     return instructors;
   }
 
   async update(id: string, data: UpdateInstructorPayload) {
     const validationPayload = updateInstructorSchema.safeParse(data);
-    if (!validationPayload.success) throw new InvalidPayloadDataException('Invalid payload data to update an class.')
+    if (!validationPayload.success)
+      throw new InvalidPayloadDataException("Invalid payload data to update an instructor.");
 
     const instructor = await InstructorRepository.findById(id);
-
-    if (instructor == null) throw new UserNotFoundException('Instructor not found.');
+    if (instructor == null) throw new UserNotFoundException("Instructor not found.");
 
     const payload = validationPayload.data;
 
     const updatedInstructor = await InstructorRepository.update(id, payload);
-
     return updatedInstructor;
   }
 
   async delete(id: string) {
     const instructor = await InstructorRepository.findById(id);
-
-    if (instructor == null) throw new UserNotFoundException('Instructor not found.');
-
+    if (instructor == null) throw new UserNotFoundException("Instructor not found.");
     return await InstructorRepository.delete(id);
   }
 }
